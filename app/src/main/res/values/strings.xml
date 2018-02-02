@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Food App</string>
+    <string name="title">What to Eat</string>
+    <string name="eat_out">Eat Out</string>
+    <string-array name="eat_out_list">
+        <item>Block 15</item>
+        <item>McMenamins</item>
+        <item>Spaghetti Factory</item>
+        <item>Pastini</item>
+        <item>Woodstocks</item>
+    </string-array>
+    <string name="take_out">Take Out</string>
+    <string-array name="take_out_list">
+        <item>Panera</item>
+        <item>Subway</item>
+        <item>Thai Chili</item>
+        <item>Chipolte</item>
+        <item>Panda</item>
+        <item>Local Boyz</item>
+        <item>Mac2U</item>
+        <item>Zoup</item>
+        <item>Qdoba</item>
+    </string-array>
+    <string name="cook">Cook at Home</string>
+    <string-array name="cook_list">
+        <item>Spaghetti</item>
+        <item>Sandwich</item>
+        <item>Pesto Pasta</item>
+        <item>Dutch Puff</item>
+        <item>French Toast</item>
+        <item>Quesadilla</item>
+        <item>Pizza</item>
+        <item>Ravioli</item>
+    </string-array>
+    <string name="dessert">Dessert</string>
+    <string-array name="dessert_list">
+        <item>Cookies</item>
+        <item>Gelato</item>
+        <item>Ice Cream</item>
+        <item>Cinnamon Rolls</item>
+        <item>Chocolate Strawberries</item>
+        <item>Apple Fritter</item>
+        <item>Pie</item>
+        <item>Cake</item>
+    </string-array>
+</resources>
