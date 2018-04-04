@@ -11,10 +11,12 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="77dp"
+        android:layout_height="wrap_content"
         android:text="@string/title"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="@android:color/background_light"
+        android:textColor="@android:color/black"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -32,7 +34,9 @@
         android:text="@string/take_out"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button1" />
+        app:layout_constraintTop_toBottomOf="@+id/button1"
+        android:layout_marginRight="204dp"
+        android:layout_marginLeft="205dp" />
 
     <Button
         android:id="@+id/button1"
@@ -65,7 +69,7 @@
         android:layout_marginEnd="175dp"
         android:layout_marginStart="175dp"
         android:layout_marginTop="90dp"
-        android:background="?android:attr/colorButtonNormal"
+        android:background="@android:color/darker_gray"
         android:paddingBottom="5sp"
         android:paddingTop="5sp"
         android:text="TextView"
@@ -89,5 +93,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="451dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_add_24dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="300dp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -19,6 +19,28 @@ public class MainActivity extends AppCompatActivity {
     String[] dessert;
     int e, t, c, d;
 
+    /*public void createDialog(String date, String list){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(SymptomLogActivity.this);
+        dialog.setCancelable(false);
+        dialog.setTitle(date);
+        dialog.setMessage("Symptoms: \n"+list);
+        dialog.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                //Action for "Delete".
+            }
+        })
+                .setNegativeButton("", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Action for "Cancel".
+                    }
+                });
+
+        final AlertDialog alert = dialog.create();
+        alert.show();
+    }*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
