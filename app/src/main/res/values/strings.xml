@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Food App</string>
     <string name="title">Select a Meal</string>
-    <string name="eat_out">Eat Out</string>
+    <string name="eat_out">Dine Out</string>
     <string-array name="eat_out_list">
         <item>Block 15</item>
         <item>McMenamins</item>
@@ -44,4 +44,11 @@
         <item>Pie</item>
         <item>Cake</item>
     </string-array>
+    <string name="title_activity_food_list">FoodListActivity</string>
+    <string name="tab_text_1">Dine Out</string>
+    <string name="tab_text_2">Take Out</string>
+    <string name="tab_text_3">Cook</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <item name="tabs" type="id">tabsValues</item>
 </resources>

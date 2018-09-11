@@ -1,0 +1,6 @@
+{
+  "dine" : ["Block 15", "McMenimins", "Spaghetti Factory", "Pastini"],
+  "take" : ["Panera", "Subway", "Chipolte", "Panda", "Zoup", "Qdoba"],
+  "cook" : ["Spaghetti", "Sandwich", "Pizza", "Quesadilla", "French Toast"],
+  "dessert" : ["Cookies", "Pie", "Cake", "Ice Cream", "Chocolate Strawberries", "Gelato"]
+}
