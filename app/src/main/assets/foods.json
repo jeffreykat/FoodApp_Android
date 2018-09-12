@@ -1,6 +1,6 @@
 {
-  "dine" : ["Block 15", "McMenimins", "Spaghetti Factory", "Pastini"],
-  "take" : ["Panera", "Subway", "Chipolte", "Panda", "Zoup", "Qdoba"],
-  "cook" : ["Spaghetti", "Sandwich", "Pizza", "Quesadilla", "French Toast", "Pesto Pasta"],
-  "dessert" : ["Cookies", "Pie", "Cake", "Ice Cream", "Chocolate Strawberries", "Gelato"]
+  "dine" : ["Block 15", "McMenimins", "Pastini", "Spaghetti Factory"],
+  "take" : ["Chipolte", "Local Boyz", "Panda", "Panera", "Qdoba", "Subway", "Thai Chili", "Zoup"],
+  "cook" : ["French Toast", "Mac and Cheese", "Pesto Pasta", "Pizza", "Quesadilla", "Ravioli", "Sandwich", "Spaghetti"],
+  "dessert" : ["Apple Fritter", "Cake", "Chocolate Strawberries", "Cinnamon Rolls", "Cookies", "Gelato", "Ice Cream", "Pie"]
 }

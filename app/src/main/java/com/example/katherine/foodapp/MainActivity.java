@@ -12,43 +12,60 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Random;
 
+import static android.widget.Toast.makeText;
+
 public class MainActivity extends AppCompatActivity {
 
     android.content.res.Resources res;
-    String[] eatOut;
-    String[] takeOut;
-    String[] cook;
-    String[] dessert;
-    int e, t, c, d;
+    int type;
+    String e, t, c, d, typeString;
     Intent food_list_intent;
 
     public void createDialog(){
+        final EditText editText = new EditText(MainActivity.this);
+        editText.setHint("Food Name");
         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
         dialog.setCancelable(true);
-        dialog.setTitle("Add Food Option");
-        dialog.setMessage("Select meal type: \n");
+        dialog.setTitle("Add Food Option").setSingleChoiceItems(R.array.types, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                type = i+1;
+            }
+        });
+        dialog.setView(editText);
         dialog.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                //Action for "Delete".
+                if(type == 1){typeString = "dine";}
+                else if(type == 2){typeString = "take";}
+                else if(type == 3){typeString = "cook";}
+                else if(type == 4){typeString = "dessert";}
+                String addFood = editText.getText().toString();
+                parseJSON(typeString, addFood);
+                Toast toast = Toast.makeText(MainActivity.this, addFood + " Added", Toast.LENGTH_SHORT);
+                toast.show();
             }
         })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -127,18 +144,28 @@ public class MainActivity extends AppCompatActivity {
         return json;
     }
 
-    public String parseJSON(String type){
-        String ret = " ";
+    public void parseJSON(String type, String food){
+        BufferedWriter bufferedWriter = null;
+        JSONObject mainObj;
+        JSONArray mainArr;
+        File outFile = new File(getExternalFilesDir(null), "foods.json");
         try {
-            JSONObject jsonMain = new JSONObject(loadJSON());
-            JSONArray arrayMain = jsonMain.getJSONArray(type);
-            for(int i = 0; i < arrayMain.length(); i++){
-                JSONObject cur = arrayMain.getJSONObject(i);
+            mainObj = new JSONObject(loadJSON());
+            mainArr = mainObj.getJSONArray(type);
+            FileWriter fileWriter = new FileWriter(outFile);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            //create object to put in array
+            mainArr.put(food);
+            bufferedWriter.write(mainObj.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                bufferedWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            return "";
         }
-        return ret;
     }
 
     @Override
@@ -146,22 +173,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        File delete = new File(getExternalFilesDir(null), "foods.json");
+        //delete.delete();
+
         File JSONfile = new File(getExternalFilesDir(null), "foods.json");
         if(!JSONfile.exists()) {
             copyAssets();
         }
 
         food_list_intent = new Intent (this, FoodListActivity.class);
-
         res = getResources();
-        e = 1;
-        t = 2;
-        c = 3;
-        d = 4;
-        eatOut = res.getStringArray(R.array.eat_out_list);
-        takeOut = res.getStringArray(R.array.take_out_list);
-        cook = res.getStringArray(R.array.cook_list);
-        dessert = res.getStringArray(R.array.dessert_list);
+        e = "dine";
+        t = "take";
+        c = "cook";
+        d = "dessert";
 
         Button eat_out = (Button)findViewById(R.id.button1);
         Button take_out = (Button)findViewById(R.id.button2);
@@ -213,19 +238,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showResult(int i){
+    private void showResult(String opt){
         String output;
-        if(i == 1) {
-            output = eatOut[new Random().nextInt(eatOut.length)];
-        }
-        else if(i == 2){
-            output = takeOut[new Random().nextInt(takeOut.length)];
-        }
-        else if(i == 3){
-            output = cook[new Random().nextInt(cook.length)];
-        }
-        else{
-            output = dessert[new Random().nextInt(dessert.length)];
+        try {
+            JSONObject jsonMain = new JSONObject(loadJSON());
+            JSONArray arrayMain = jsonMain.getJSONArray(opt);
+            output = arrayMain.getString(new Random().nextInt(arrayMain.length()));
+        } catch (JSONException e) {
+            output = "Error";
         }
         TextView view = (TextView) findViewById(R.id.output);
         view.setText(output);

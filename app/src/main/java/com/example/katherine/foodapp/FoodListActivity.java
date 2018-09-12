@@ -124,7 +124,7 @@ public class FoodListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_food_list);
 
         File delete = new File(getExternalFilesDir(null), "foods.json");
-        delete.delete();
+        //delete.delete();
 
         File JSONfile = new File(getExternalFilesDir(null), "foods.json");
         if(!JSONfile.exists()) {
@@ -267,6 +267,7 @@ public class FoodListActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_food_list, container, false);
             final TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(parseJSON(getArguments().getInt(ARG_SECTION_NUMBER)));
+            textView.setTextSize(20);
             return rootView;
         }
     }
