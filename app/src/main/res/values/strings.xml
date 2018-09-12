@@ -8,48 +8,9 @@
         <item>Cook at Home</item>
         <item>Dessert</item>
     </string-array>
-    <string-array name="eat_out_list">
-        <item>Block 15</item>
-        <item>McMenamins</item>
-        <item>Spaghetti Factory</item>
-        <item>Pastini</item>
-        <item>Woodstocks</item>
-    </string-array>
     <string name="take_out">Take Out</string>
-    <string-array name="take_out_list">
-        <item>Panera</item>
-        <item>Subway</item>
-        <item>Thai Chili</item>
-        <item>Chipolte</item>
-        <item>Panda</item>
-        <item>Local Boyz</item>
-        <item>Woodstocks</item>
-        <item>Zoup</item>
-        <item>Qdoba</item>
-    </string-array>
     <string name="cook">Cook at Home</string>
-    <string-array name="cook_list">
-        <item>Spaghetti</item>
-        <item>Sandwich</item>
-        <item>Pesto Pasta</item>
-        <item>Mac and Cheese</item>
-        <item>French Toast</item>
-        <item>Quesadilla</item>
-        <item>Pizza</item>
-        <item>Ravioli</item>
-        <item>Salad</item>
-    </string-array>
     <string name="dessert">Dessert</string>
-    <string-array name="dessert_list">
-        <item>Cookies</item>
-        <item>Gelato</item>
-        <item>Ice Cream</item>
-        <item>Cinnamon Rolls</item>
-        <item>Chocolate Strawberries</item>
-        <item>Apple Fritter</item>
-        <item>Pie</item>
-        <item>Cake</item>
-    </string-array>
     <string name="title_activity_food_list">FoodListActivity</string>
     <string name="tab_text_1">Dine Out</string>
     <string name="tab_text_2">Take Out</string>
@@ -57,4 +18,5 @@
     <string name="action_settings">Settings</string>
     <item name="tabs" type="id">tabsValues</item>
     <string name="food_name">Food Name</string>
+    <string name="reset">Reset</string>
 </resources>

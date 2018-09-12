@@ -1,5 +1,6 @@
 package com.example.katherine.foodapp;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -50,6 +51,8 @@ public class FoodListActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+
+    Intent reset_intent;
 
     static File JSONFile;
 
@@ -123,8 +126,7 @@ public class FoodListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_list);
 
-        File delete = new File(getExternalFilesDir(null), "foods.json");
-        //delete.delete();
+        reset_intent = new Intent (this, FoodListActivity.class);
 
         File JSONfile = new File(getExternalFilesDir(null), "foods.json");
         if(!JSONfile.exists()) {
@@ -167,7 +169,10 @@ public class FoodListActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_reset) {
+            File delete = new File(getExternalFilesDir(null), "foods.json");
+            delete.delete();
+            startActivity(reset_intent);
             return true;
         }
 
