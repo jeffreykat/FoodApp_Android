@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/chk"
             android:layout_alignParentLeft="true"
-            android:paddingTop="10dp"
+            android:padding="10dp"
             android:visibility="gone"
             />
 
