@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_margin="10dp"
+
+    tools:context="com.example.katherine.foodapp.FoodListActivity$PlaceholderFragment"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/row_left"
+        android:layout_marginStart="@dimen/row_left">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chk"
+            android:layout_alignParentLeft="true"
+            android:paddingTop="10dp"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/nameTxt"
+            android:padding="10dp"
+            android:layout_marginLeft="@dimen/check_margin" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

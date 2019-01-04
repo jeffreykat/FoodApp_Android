@@ -16,7 +16,7 @@
     <string name="tab_text_2">Take Out</string>
     <string name="tab_text_3">Cook</string>
     <string name="action_settings">Settings</string>
-    <item name="tabs" type="id">tabsValues</item>
     <string name="food_name">Food Name</string>
     <string name="reset">Reset</string>
+    <string name="clear">Clear</string>
 </resources>

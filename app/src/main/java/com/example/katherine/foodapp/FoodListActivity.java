@@ -1,11 +1,18 @@
 package com.example.katherine.foodapp;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -20,6 +27,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -34,6 +45,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 public class FoodListActivity extends AppCompatActivity {
 
@@ -55,6 +67,10 @@ public class FoodListActivity extends AppCompatActivity {
     Intent reset_intent;
 
     static File JSONFile;
+
+    boolean checksVisible = false;
+
+    ArrayList<PlaceholderFragment> allFragments = new ArrayList<PlaceholderFragment>();
 
     private void copyAssets() {
         AssetManager assetManager = getApplicationContext().getAssets();
@@ -91,34 +107,49 @@ public class FoodListActivity extends AppCompatActivity {
         }
     }
 
-    public static String getStringFromFile(String filePath) throws Exception {
-        File fl = new File(filePath);
-        FileInputStream fin = new FileInputStream(fl);
-        String ret = convertStreamToString(fin);
-        //Make sure you close all streams.
-        fin.close();
-        return ret;
-    }
+    private static class JSONAdapter extends BaseAdapter implements ListAdapter {
+        private final ArrayList<String> arrayList;
+        LayoutInflater inflater;
+        Context c;
+        private JSONAdapter (Context c, ArrayList<String> arrayList) {
+            assert arrayList != null;
 
-    public static String convertStreamToString(InputStream is) throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-        String line = null;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line).append("\n");
+            this.arrayList = arrayList;
+            this.c = c;
         }
-        return sb.toString();
-    }
 
-    public String loadJSON(){
-        String json = null;
-        File JSONfile = new File(getExternalFilesDir(null), "foods.json");
-        try {
-            json = getStringFromFile(JSONfile.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
+        @Override public int getCount() {
+            if(null==arrayList)
+                return 0;
+            else
+                return arrayList.size();
         }
-        return json;
+
+        @Override public String getItem(int position) {
+            if(null==arrayList) return null;
+            else
+                return arrayList.get(position);
+        }
+
+        @Override public long getItemId(int position) {
+            return position;
+        }
+
+        @Override public View getView(int position, View convertView, ViewGroup parent) {
+
+            inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            if (inflater != null &&  convertView == null)
+                convertView = inflater.inflate(R.layout.row, parent, false);
+
+            TextView text =(TextView)convertView.findViewById(R.id.nameTxt);
+            text.setTextSize(20);
+
+            final String name = arrayList.get(position);
+            text.setText(name);
+
+            return convertView;
+        }
     }
 
     @Override
@@ -153,7 +184,6 @@ public class FoodListActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -170,9 +200,22 @@ public class FoodListActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_reset) {
-            File delete = new File(getExternalFilesDir(null), "foods.json");
-            delete.delete();
-            startActivity(reset_intent);
+            //File delete = new File(getExternalFilesDir(null), "foods.json");
+            //delete.delete();
+            //startActivity(reset_intent);
+            checksVisible = !checksVisible;
+            for(int i = 0; i < allFragments.size(); i++){
+                allFragments.get(i).setCheckVisibility(checksVisible);
+            }
+
+            if(checksVisible){
+                item.setIcon(R.drawable.ic_clear_24dp);
+                findViewById(R.id.confirmDeleteButton).setVisibility(View.VISIBLE);
+            }
+            else{
+                item.setIcon(R.drawable.ic_delete_24dp);
+                findViewById(R.id.confirmDeleteButton).setVisibility(View.GONE);
+            }
             return true;
         }
 
@@ -182,17 +225,10 @@ public class FoodListActivity extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
+    @SuppressLint("ValidFragment")
     public static class PlaceholderFragment extends Fragment {
 
-        private void copyFile(InputStream in, OutputStream out) throws IOException {
-            byte[] buffer = new byte[1024];
-            int read;
-            while((read = in.read(buffer)) != -1){
-                out.write(buffer, 0, read);
-            }
-        }
-
-        public static String getStringFromFile(String filePath) throws Exception {
+        public String getStringFromFile(String filePath) throws Exception {
             File fl = new File(filePath);
             FileInputStream fin = new FileInputStream(fl);
             String ret = convertStreamToString(fin);
@@ -201,7 +237,7 @@ public class FoodListActivity extends AppCompatActivity {
             return ret;
         }
 
-        public static String convertStreamToString(InputStream is) throws Exception {
+        public String convertStreamToString(InputStream is) throws Exception {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             StringBuilder sb = new StringBuilder();
             String line = null;
@@ -221,28 +257,30 @@ public class FoodListActivity extends AppCompatActivity {
             return json;
         }
 
-        public String parseJSON(int section){
-            String ret = " ";
+        public ArrayList<String> parseJSON(int section){
+            ArrayList<String> foodNames = null;
             String type = " ";
+            JSONArray arrayMain;
             if(section == 1){type = "dine";}
             else if(section == 2){type = "take";}
             else if(section == 3){type = "cook";}
             else if(section == 4){type = "dessert";}
             try {
                 JSONObject jsonMain = new JSONObject(loadJSON());
-                JSONArray arrayMain = jsonMain.getJSONArray(type);
+                arrayMain = jsonMain.getJSONArray(type);
+                foodNames = new ArrayList<String>();
                 if(arrayMain == null){
-                    return "No food saved";
+                    return null;
                 }
                 for(int i = 0; i < arrayMain.length(); i++){
                     if(!(arrayMain.getString(i).equals(""))){
-                        ret += arrayMain.getString(i) + " \n ";
+                        foodNames.add(arrayMain.getString(i));
                     }
                 }
             } catch (JSONException e) {
-                return "Error";
+                return null;
             }
-            return ret;
+            return foodNames;
         }
 
         /**
@@ -251,29 +289,45 @@ public class FoodListActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
+        ListView listView;
+
         public PlaceholderFragment() {
         }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        public static PlaceholderFragment newInstance(int index){
+            PlaceholderFragment currentFragment = new PlaceholderFragment();
             Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
+            args.putInt(ARG_SECTION_NUMBER, index);
+            currentFragment.setArguments(args);
+            return currentFragment;
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_food_list, container, false);
-            final TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(parseJSON(getArguments().getInt(ARG_SECTION_NUMBER)));
-            textView.setTextSize(20);
+            JSONAdapter jsonAdapter;
+            listView = (ListView) rootView.findViewById(R.id.section_label);
+            jsonAdapter = new JSONAdapter(getActivity(), parseJSON(getArguments().getInt(ARG_SECTION_NUMBER)));
+            listView.setAdapter(jsonAdapter);
             return rootView;
+        }
+
+        public void setCheckVisibility(boolean isVisible){
+            int length = listView.getCount();
+            if(isVisible) {
+                for (int i = 0; i < length; i++) {
+                    View row = listView.getChildAt(i);
+                    row.findViewById(R.id.chk).setVisibility(View.VISIBLE);
+                }
+            }
+            else{
+                for(int j = 0; j < length; j++){
+                    View row = listView.getChildAt(j);
+                    row.findViewById(R.id.chk).setSelected(false);
+                    row.findViewById(R.id.chk).setVisibility(View.GONE);
+                }
+            }
         }
     }
 
@@ -291,7 +345,9 @@ public class FoodListActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            PlaceholderFragment currentFragment = PlaceholderFragment.newInstance(position + 1);
+            allFragments.add(currentFragment);
+            return currentFragment;
         }
 
         @Override
@@ -300,4 +356,5 @@ public class FoodListActivity extends AppCompatActivity {
             return 4;
         }
     }
+
 }
